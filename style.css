@@ -1,0 +1,139 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+header {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 10vh;
+    width: 100vw;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    box-shadow: 0px 4px 6px 0px rgba(0, 0 , 0 ,0.05);
+}
+
+header img {
+    width: 75px;
+    height: 53px;
+
+    margin-left: 22px;
+}
+
+header ion-icon {
+    height: 30px;
+    width: 42px;
+
+    margin-right: 22px;
+}
+
+/* configuracao do corpo principal */
+
+main {
+    height: 80vh;
+    padding-top: 26px;
+    box-sizing: border-box;
+
+    margin-bottom: 10vh;
+    margin-top: 10vh;
+
+    background-color: #E5E5E5;
+    overflow-y: scroll;
+}
+
+li {
+    height: auto;
+    padding-left: 8px;
+    padding-right: 8px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+
+    font-size: 14px;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100vw;
+}
+
+li span {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    line-height: 20px;
+}
+
+#time {
+    color: #AAAAAA;
+    font-weight: 300;
+}
+
+.joinChat {
+    background-color: #DCDCDC;
+}
+
+.defaultlMsg {
+    background-color: #ffffff;
+}
+
+.privateMsg {
+    background-color: #FFDEDE;
+}
+
+.quitChat {
+    background-color: #DCDCDC;
+}
+
+/* configuracao do footer */
+
+footer {
+    height: 10vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    box-shadow: 0px 4px 6px 0px rgba(0, 0 , 0 ,0.05);
+}
+
+footer textarea {
+    border: none;
+    width: 80%;
+
+    margin-left: 17px;
+
+    overflow-x: scroll;
+
+    font-family: 'Roboto', italic;
+    font-size: 18px;
+    font-weight: 400;
+    color: #000000;
+}
+
+footer textarea:focus {
+    box-shadow: 0 0 0 0;
+
+    outline: 0;
+}
+
+footer ion-icon {
+    margin-right: 17px;
+    width: 26px;
+    height: 26px;
+}

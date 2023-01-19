@@ -2,6 +2,9 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+main::-webkit-scrollbar {
+    display: none;
+}
 
 header {
 

@@ -17,6 +17,7 @@ function enviarNome(){
 
     setInterval(atualizarStatus, 5000);
 
+
     let promise = axios.post(`${urlApi}/participants`, objNome);
     promise.then(sucess);
     promise.catch(fail);
@@ -56,21 +57,45 @@ function attStatusErro(){
 
 let tempo;
 
+let testeNovo;
+
 function right(pegarTempo){
     console.log(pegarTempo.data.slice(-1)[0].time);
 
-    tempo = pegarTempo.data.slice(-1)[0].time;
+    testeNovo = pegarTempo;
 
-    let ul = document.querySelector('ul');
-
-    ul.innerHTML += `
-        <li class="joinChat">
-            <span><strong id="time">(${tempo}) </strong> <strong>${perguntarNome} </strong> entrou na sala</span>
-        </li>
-    `;
-
+    imprimirMsg();
 }
 
+function imprimirMsg(){
+    let ul = document.querySelector('ul');
+
+
+    for(let i = 0; i < testeNovo.data.length; i++){
+        if(testeNovo.data[i].type === 'status'){
+            ul.innerHTML += `
+                <li class="joinChat">
+                    <span><strong id="time">(${testeNovo.data[i].time})</strong> <strong>${testeNovo.data[i].from} </strong> ${testeNovo.data[i].text}</span>
+                </li>
+            `;
+        } else if (testeNovo.data[i].type === 'message') {
+            ul.innerHTML += `
+                <li class="defaultlMsg">
+                    <span><strong id="time">(${testeNovo.data[i].time}) </strong> <strong>${testeNovo.data[i].from} </strong> para <strong>${testeNovo.data[i].to}</strong> ${testeNovo.data[i].text}</span>
+                </li>
+            `;
+        } else if (testeNovo.data[i].type === 'private_message'){
+            ul.innerHTML += `
+                <li class="privateMsg">
+                    <span><strong id="time">(${testeNovo.data[i].time}) </strong> <strong>${testeNovo.data[i].from} reservadamente</strong> para <strong>${testeNovo.data[i].to}</strong> ${testeNovo.data[i].text}</span>
+                </li>
+            `;
+        }
+    }
+
+    let ultimoLi = document.querySelectorAll('li');
+    ultimoLi[ultimoLi.length - 1].scrollIntoView();
+}
 
 
 function enviarMensagem(){
@@ -105,6 +130,8 @@ let mensagemNova, tempoNovo;
 
 function deuCerto(resposta){
     /* console.log(resposta.data.slice(-1)); */
+
+
     console.log(resposta.data.slice(-1)[0]);
 
     mensagemNova = resposta.data.slice(-1)[0].text;

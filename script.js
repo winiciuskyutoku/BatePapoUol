@@ -6,6 +6,7 @@ let objMsg;
 let objNome;
 let mensagem;
 let ultimoElemento;
+let ul;
 
 enviarNome();
 
@@ -17,22 +18,27 @@ function enviarNome(){
 
     setInterval(atualizarStatus, 5000);
 
-
     let promise = axios.post(`${urlApi}/participants`, objNome);
     promise.then(sucess);
     promise.catch(fail);
 
 }
 
-function sucess(acerto){
-    console.log(acerto.data);
+function sucess(){
 
-    let promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
-    promise.then(right);
-    /* promise.catch(wrong); */
+    if (perguntarNome !== undefined){
+        let promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+
+        
+        
+        promise.then(imprimirMsg);
+        promise.catch(wrong);
+        
+    }
+
 }
 
-function fail(erro) {
+function fail() {
     alert('O nome inserido já esta em uso');
 
     enviarNome();
@@ -54,113 +60,86 @@ function attStatusErro(){
     console.log('envio errado');
 }
 
+function imprimirMsg(response){
+    ul = document.querySelector('ul');
 
-let tempo;
+    let mensagemDoServer;
 
-let testeNovo;
+    ul.innerHTML = ''
 
-function right(pegarTempo){
-    console.log(pegarTempo.data.slice(-1)[0].time);
-
-    testeNovo = pegarTempo;
-
-    imprimirMsg();
-}
-
-function imprimirMsg(){
-    let ul = document.querySelector('ul');
+    for(let i = 0; i < response.data.length; i++){
+        mensagemDoServer = response.data[i];
 
 
-    for(let i = 0; i < testeNovo.data.length; i++){
-        if(testeNovo.data[i].type === 'status'){
+        if(mensagemDoServer.type === 'status'){
             ul.innerHTML += `
                 <li class="joinChat">
-                    <span><strong id="time">(${testeNovo.data[i].time})</strong> <strong>${testeNovo.data[i].from} </strong> ${testeNovo.data[i].text}</span>
+                    <span><strong id="time">(${mensagemDoServer.time})</strong> <strong>${mensagemDoServer.from} </strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
-        } else if (testeNovo.data[i].type === 'message') {
+        } else if (mensagemDoServer.type === 'message') {
             ul.innerHTML += `
                 <li class="defaultlMsg">
-                    <span><strong id="time">(${testeNovo.data[i].time}) </strong> <strong>${testeNovo.data[i].from} </strong> para <strong>${testeNovo.data[i].to}</strong> ${testeNovo.data[i].text}</span>
+                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
-        } else if (testeNovo.data[i].type === 'private_message'){
+        } else if (mensagemDoServer.type === 'private_message'){
             ul.innerHTML += `
                 <li class="privateMsg">
-                    <span><strong id="time">(${testeNovo.data[i].time}) </strong> <strong>${testeNovo.data[i].from} reservadamente</strong> para <strong>${testeNovo.data[i].to}</strong> ${testeNovo.data[i].text}</span>
+                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} reservadamente</strong> para <strong>${mensagemDoServer.to}</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         }
     }
 
-    let ultimoLi = document.querySelectorAll('li');
-    ultimoLi[ultimoLi.length - 1].scrollIntoView();
+    console.log(response.data.length);
+
+
+    const ultimoLi = document.querySelector('ul li:last-child');
+
+    ultimoLi.scrollIntoView();
+
+}
+
+
+function wrong(){
+    alert('Erro no servidor');
+
+    window.location.reload();
 }
 
 
 function enviarMensagem(){
+    
     mensagem = document.querySelector('textarea').value;
+
+    if (mensagem === ""){
+        return
+    } else {
+        const textArea = document.querySelector('textarea');
+        textArea.removeAttribute("disabled");
+        document.querySelector('textarea').value = '';
+    }
+
+    
 
     objMsg = {from: perguntarNome, to: destinatario, text: mensagem, type: tipoMsg};
 
     let promise = axios.post(`${urlApi}/messages`, objMsg);
-    promise.then(sucess1);
-    promise.catch(fail1);
+    promise.then(sucess);
+    promise.catch(fail);
 }
 
-function sucess1(acerto1){
-    console.log(acerto1.data);
-
-    pegarMensagem();
-
-}
-
-function fail1(erro1){
-    window.location.reload();
-}
-
-function pegarMensagem() {
-    let promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
-    promise.then(deuCerto);
-    promise.catch(deuErrado);
-}
-
-let mensagemNova, tempoNovo;
+let text = document.querySelector('textarea');
 
 
-function deuCerto(resposta){
-    /* console.log(resposta.data.slice(-1)); */
+text.addEventListener('keyup', (e) => {
+    if(e.keyCode === 13 ) {
+        console.log(e.target.value);
+        enviarMensagem();
+    } 
+})
 
+setInterval(sucess, 3000);
 
-    console.log(resposta.data.slice(-1)[0]);
-
-    mensagemNova = resposta.data.slice(-1)[0].text;
-
-    tempoNovo = resposta.data.slice(-1)[0].time;
-
-    toNovo = resposta.data.slice(-1)[0].to;
-
-    criarMensagem();
-}
-
-function deuErrado(nao){
-    console.log(nao);
-}
-
-function criarMensagem(){
-    let ul = document.querySelector('ul');
-
-    ul.innerHTML += `
-        <li class="defaultlMsg">
-            <span><strong id="time">(${tempoNovo}) </strong> <strong>${perguntarNome} </strong> para <strong>${toNovo}</strong> ${mensagemNova}</span>
-        </li>
-    `;
-
-    ultimoElemento = document.querySelectorAll('li');
-    
-    ultimoElemento[ultimoElemento.length - 1].scrollIntoView();
-    console.log(ultimoElemento);
-    
-
-    document.querySelector('textarea').value = '';
-}
+console.log(document.querySelector('textarea').value);

@@ -6,6 +6,10 @@ main::-webkit-scrollbar {
     display: none;
 }
 
+textarea::-webkit-scrollbar {
+    display: none;
+}
+
 header {
 
     display: flex;
@@ -102,6 +106,7 @@ li span {
 
 /* configuracao do footer */
 
+
 footer {
     height: 10vh;
     width: 100%;
@@ -123,6 +128,10 @@ footer textarea {
     margin-left: 17px;
 
     overflow-x: scroll;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 
     font-family: 'Roboto', italic;
     font-size: 18px;

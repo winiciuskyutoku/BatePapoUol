@@ -80,13 +80,13 @@ function imprimirMsg(response){
         } else if (mensagemDoServer.type === 'message') {
             ul.innerHTML += `
                 <li class="defaultlMsg">
-                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}</strong> ${mensagemDoServer.text}</span>
+                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         } else if (mensagemDoServer.type === 'private_message'){
             ul.innerHTML += `
                 <li class="privateMsg">
-                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} reservadamente</strong> para <strong>${mensagemDoServer.to}</strong> ${mensagemDoServer.text}</span>
+                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong>reservadamente para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         }
@@ -143,3 +143,163 @@ text.addEventListener('keyup', (e) => {
 setInterval(sucess, 3000);
 
 console.log(document.querySelector('textarea').value);
+
+
+function mostrarListaDePessoas(){
+    document.querySelector('section').classList.remove('escondido');
+
+    pegarParticipantes();
+}
+
+function mostrarChat(){
+    document.querySelector('section').classList.add('escondido');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function pegarParticipantes(){
+    let promise = axios.get(`${urlApi}/participants`);
+
+    promise.then(participantesCerto);
+    promise.catch(participantesErrado);
+}
+
+const participantesErrado = () => console.log("Erro no servidor");
+
+function participantesCerto(participantes){
+    console.log(participantes);
+
+    let part = document.querySelector('.pessoas');
+
+    part.innerHTML = '';
+
+    part.innerHTML = `
+        <div class="pessoasAtt">
+            <div onclick="selecionarOParticipante(this)">
+                 <ion-icon name="person-circle"></ion-icon>
+                 <span>Todos</span>
+            </div>
+            <div class="icone">
+        
+            </div>
+        </div> 
+    `;
+    
+    for (let i = 0; i < participantes.data.length; i++){
+        part.innerHTML += `
+        <div class="pessoasAtt">
+            <div onclick="selecionarOParticipante(this)">
+                <ion-icon name="person-circle"></ion-icon>
+                <span>${participantes.data[i].name}</span>
+            </div>
+            <div class="icone">
+                
+            </div>
+        </div> 
+        `;
+    }
+
+
+}
+
+let array = [];
+
+function selecionarOParticipante(clicado){
+    let divIcone = document.querySelectorAll(".icone");
+    
+    for(let i = 0; i < divIcone.length; i++ ){
+        divIcone[i].innerHTML = "";
+    }
+
+
+    let paiClicado = clicado.parentNode;
+    let filhoClicado = paiClicado.childNodes[3];
+
+   filhoClicado.innerHTML = `
+    <ion-icon name="checkmark"></ion-icon>
+   `;
+
+   let teste = clicado.childNodes;
+   array.shift();
+   array.push(teste[3].innerHTML); 
+   
+   console.log(array);
+    
+    let para = document.querySelector(".enviando");
+    para.innerHTML = `
+        Enviando para ${array[0]}
+    `;
+
+    if(array[0] === "Todos"){
+        destinatario = "Todos"
+    } else {
+        destinatario = array[0];
+    }
+
+    if(array[0] === 'Todos'){
+        tipoMsg = "message";
+        /* para.innerHTML = `(Público)`; */
+        bambu.classList.add('escondido2');
+    } else {
+        bambu.classList.remove('escondido2');
+    }
+
+
+}
+
+let tipo = [];
+
+let bambu = document.querySelector(".tipoAtt2");
+
+function escolherTipoDaMensagem(selected){
+    let divIcone = document.querySelectorAll(".icone2");
+    
+    
+    for(let i = 0; i < divIcone.length; i++ ){
+        divIcone[i].innerHTML = "";
+    }
+
+
+    let paiClicado = selected.parentNode;
+    let filhoClicado = paiClicado.childNodes[3];
+
+   filhoClicado.innerHTML = `
+    <ion-icon name="checkmark"></ion-icon>
+   `;
+
+   let teste = selected.childNodes;
+   tipo.shift();
+   tipo.push(teste[3].innerHTML); 
+   
+    
+    let para = document.querySelector(".enviandoTipo");
+    para.innerHTML = `
+        (${tipo[0]})
+    `;
+
+
+    if(tipo[0] === "Reservadamente"){
+        tipoMsg = "private_message";
+    }
+
+    if(tipo[0] === "Público"){
+        tipoMsg = "message";
+    }
+
+    
+}
+
+
+setInterval(pegarParticipantes, 10000);

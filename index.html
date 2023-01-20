@@ -13,7 +13,7 @@
 
     <header>
         <img src="logo 1.png" alt="Logo">
-        <ion-icon name="people"></ion-icon>
+        <ion-icon name="people" onclick="mostrarListaDePessoas()"></ion-icon>
     </header>
     <main>
         <ul>
@@ -21,9 +21,56 @@
         </ul>
     </main>
     <footer>
-        <textarea name="" id="" cols="30" rows="1" placeholder="Escreva aqui..."></textarea>
-        <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
+        <div class="priFooter">
+            <textarea name="" id="" cols="30" rows="1" placeholder="Escreva aqui..."></textarea>
+            <div>
+                <span class="enviando">
+                
+                </span>
+                <span class="enviandoTipo">
+                </span>
+            </div>
+        </div>
+        <div class="secFooter">
+            <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
+        </div>
     </footer>
+    <section class="escondido">
+        <div class="escuro" onclick="mostrarChat()">
+
+        </div>
+        <div class="contatos">
+            <h1>Escolha um contanto <br> para enviar mensagem:</h1>
+            <div class="pessoas">
+                <div>
+                    <ion-icon name="people"></ion-icon>
+                    <span>Todos</span>
+                </div>
+            </div>
+            <h1>Escolha a visibilidade</h1>
+            <div class="tipoDaMensagem">
+                <div class="tipoAtt">
+                    <div onclick="escolherTipoDaMensagem(this)">
+                        <ion-icon name="lock-closed"></ion-icon>
+                        <span>Público</span>
+                    </div>
+                    <div class="icone2">
+                        
+                    </div>
+                </div>
+                <div class="tipoAtt2">
+                    <div onclick="escolherTipoDaMensagem(this)">
+                        <ion-icon name="lock-open"></ion-icon>
+                        <span>Reservadamente</span>
+                    </div>
+                    <div class="icone2">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

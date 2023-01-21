@@ -7,14 +7,15 @@ let objNome;
 let mensagem;
 let ultimoElemento;
 let ul;
+let inputLogin;
 
-enviarNome();
 
 function enviarNome(){
 
-    perguntarNome = prompt('Qual é o seu nome');
+    /* perguntarNome = prompt('Qual é o seu nome'); */
+    
 
-    objNome = {name: perguntarNome};
+    objNome = {name: inputLogin};
 
     setInterval(atualizarStatus, 5000);
 
@@ -26,7 +27,7 @@ function enviarNome(){
 
 function sucess(){
 
-    if (perguntarNome !== undefined){
+    if (inputLogin !== undefined){
         let promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
 
         
@@ -122,8 +123,7 @@ function enviarMensagem(){
     }
 
     
-
-    objMsg = {from: perguntarNome, to: destinatario, text: mensagem, type: tipoMsg};
+    objMsg = {from: inputLogin, to: destinatario, text: mensagem, type: tipoMsg};
 
     let promise = axios.post(`${urlApi}/messages`, objMsg);
     promise.then(sucess);
@@ -131,7 +131,6 @@ function enviarMensagem(){
 }
 
 let text = document.querySelector('textarea');
-
 
 text.addEventListener('keyup', (e) => {
     if(e.keyCode === 13 ) {
@@ -142,9 +141,6 @@ text.addEventListener('keyup', (e) => {
 
 setInterval(sucess, 3000);
 
-console.log(document.querySelector('textarea').value);
-
-
 function mostrarListaDePessoas(){
     document.querySelector('section').classList.remove('escondido');
 
@@ -154,19 +150,6 @@ function mostrarListaDePessoas(){
 function mostrarChat(){
     document.querySelector('section').classList.add('escondido');
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function pegarParticipantes(){
@@ -250,7 +233,6 @@ function selecionarOParticipante(clicado){
 
     if(array[0] === 'Todos'){
         tipoMsg = "message";
-        /* para.innerHTML = `(Público)`; */
         bambu.classList.add('escondido2');
     } else {
         bambu.classList.remove('escondido2');
@@ -301,5 +283,26 @@ function escolherTipoDaMensagem(selected){
     
 }
 
+function fazerLogin() {
+    inputLogin = document.querySelector(".enviarLogin input").value;
+
+    enviarNome();
+
+    setInterval(tirarTelaLoading, 2000);
+
+    let telaInicial = document.querySelector('.login');
+    telaInicial.classList.add('escondido2');
+
+    document.querySelector(".enviarLogin input").value = "";
+    
+}
+
+let loading;
+
+
+function tirarTelaLoading(){
+    loading = document.querySelector(".login2");
+    loading.classList.add('escondido2');
+}
 
 setInterval(pegarParticipantes, 10000);

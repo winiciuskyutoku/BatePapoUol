@@ -6,8 +6,12 @@ main::-webkit-scrollbar {
     display: none;
 }
 
-textarea::-webkit-scrollbar, .contatos::-webkit-scrollbar {
+textarea::-webkit-scrollbar, .contatos::-webkit-scrollbar, .escuro::-webkit-scrollbar, section::-webkit-scrollbar {
     display: none;
+}
+
+.escuro, .contatos, section {
+    overflow-y: hidden;
 }
 
 header {

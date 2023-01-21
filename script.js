@@ -40,9 +40,10 @@ function sucess(){
 }
 
 function fail() {
-    alert('O nome inserido já esta em uso');
 
-    enviarNome();
+    alert('Esse nome de usuário já está sendo utilizado!');
+
+    window.location.reload();
     
 }
 

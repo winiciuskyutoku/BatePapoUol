@@ -75,7 +75,7 @@ function imprimirMsg(response){
                     <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
-        } else if (mensagemDoServer.type === 'private_message'){
+        } else if (mensagemDoServer.type === 'private_message' && (mensagemDoServer.from === array[0] || mensagemDoServer.to === inputLogin)){
             ul.innerHTML += `
                 <li class="privateMsg" data-test="message">
                     <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong>reservadamente para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
@@ -118,7 +118,11 @@ function enviarMensagem(){
 
     let promise = axios.post(`${urlApi}/messages`, objMsg);
     promise.then(sucess);
-    promise.catch(fail);
+    promise.catch(fail2);
+}
+
+function fail2() {
+    alert('Nao foi possivel enviar sua mensagem!')
 }
 
 let text = document.querySelector('textarea');

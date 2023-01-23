@@ -75,7 +75,7 @@ function imprimirMsg(response){
                     <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
-        } else if (mensagemDoServer.type === 'private_message' && (mensagemDoServer.from === array[0] || mensagemDoServer.to === inputLogin)){
+        } else if (mensagemDoServer.type === 'private_message' && (mensagemDoServer.from === inputLogin || mensagemDoServer.to === array[0])){
             ul.innerHTML += `
                 <li class="privateMsg" data-test="message">
                     <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong>reservadamente para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
@@ -123,6 +123,8 @@ function enviarMensagem(){
 
 function fail2() {
     alert('Nao foi possivel enviar sua mensagem!')
+
+    window.location.reload();
 }
 
 let text = document.querySelector('textarea');

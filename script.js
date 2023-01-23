@@ -2,18 +2,10 @@ const urlApi = 'https://mock-api.driven.com.br/api/v6/uol';
 let perguntarNome;
 let destinatario = "Todos";
 let tipoMsg = "message";
-let objMsg;
-let objNome;
-let mensagem;
-let ultimoElemento;
-let ul;
-let inputLogin;
+let objMsg, objNome, mensagem, ultimoElemento, ul, inputLogin, loading;
 
 
 function enviarNome(){
-
-    /* perguntarNome = prompt('Qual é o seu nome'); */
-    
 
     objNome = {name: inputLogin};
 
@@ -29,8 +21,6 @@ function sucess(){
 
     if (inputLogin !== undefined){
         let promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
-
-        
         
         promise.then(imprimirMsg);
         promise.catch(wrong);
@@ -76,19 +66,19 @@ function imprimirMsg(response){
         if(mensagemDoServer.type === 'status'){
             ul.innerHTML += `
                 <li class="joinChat">
-                    <span><strong id="time">(${mensagemDoServer.time})</strong> <strong>${mensagemDoServer.from} </strong> ${mensagemDoServer.text}</span>
+                    <span><strong id="time" data-test="message">(${mensagemDoServer.time})</strong> <strong>${mensagemDoServer.from} </strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         } else if (mensagemDoServer.type === 'message') {
             ul.innerHTML += `
                 <li class="defaultlMsg">
-                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
+                    <span><strong id="time" data-test="message">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         } else if (mensagemDoServer.type === 'private_message'){
             ul.innerHTML += `
                 <li class="privateMsg">
-                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong>reservadamente para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
+                    <span><strong id="time" data-test="message">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong>reservadamente para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         }
@@ -170,7 +160,7 @@ function participantesCerto(participantes){
     part.innerHTML = '';
 
     part.innerHTML = `
-        <div class="pessoasAtt">
+        <div class="pessoasAtt" data-test="all">
             <div onclick="selecionarOParticipante(this)">
                  <ion-icon name="person-circle"></ion-icon>
                  <span>Todos</span>
@@ -183,7 +173,7 @@ function participantesCerto(participantes){
     
     for (let i = 0; i < participantes.data.length; i++){
         part.innerHTML += `
-        <div class="pessoasAtt">
+        <div class="pessoasAtt" data-test="participant">
             <div onclick="selecionarOParticipante(this)">
                 <ion-icon name="person-circle"></ion-icon>
                 <span>${participantes.data[i].name}</span>
@@ -212,7 +202,7 @@ function selecionarOParticipante(clicado){
     let filhoClicado = paiClicado.childNodes[3];
 
    filhoClicado.innerHTML = `
-    <ion-icon name="checkmark"></ion-icon>
+    <ion-icon name="checkmark" data-test="check"></ion-icon>
    `;
 
    let teste = clicado.childNodes;
@@ -259,7 +249,7 @@ function escolherTipoDaMensagem(selected){
     let filhoClicado = paiClicado.childNodes[3];
 
    filhoClicado.innerHTML = `
-    <ion-icon name="checkmark"></ion-icon>
+    <ion-icon name="checkmark" data-test="check"></ion-icon>
    `;
 
    let teste = selected.childNodes;
@@ -297,9 +287,6 @@ function fazerLogin() {
     document.querySelector(".enviarLogin input").value = "";
     
 }
-
-let loading;
-
 
 function tirarTelaLoading(){
     loading = document.querySelector(".login2");

@@ -13,8 +13,8 @@
     <div class="login">
         <img src="logo 1.png" alt="batepapouol">
         <div class="enviarLogin">
-            <input type="text" placeholder="Digite seu nome">
-            <button onclick="fazerLogin()">Entrar</button>
+            <input data-test="input-name" type="text" placeholder="Digite seu nome">
+            <button data-test="send-name" onclick="fazerLogin()">Entrar</button>
         </div>
     </div>
     <div class="login2">
@@ -28,7 +28,7 @@
 
     <header>
         <img src="logo 1.png" alt="Logo">
-        <ion-icon name="people" onclick="mostrarListaDePessoas()"></ion-icon>
+        <ion-icon data-test="open-participants" name="people" onclick="mostrarListaDePessoas()"></ion-icon>
     </header>
     <main>
         <ul>
@@ -37,8 +37,8 @@
     </main>
     <footer>
         <div class="priFooter">
-            <textarea name="" id="" cols="30" rows="1" placeholder="Escreva aqui..."></textarea>
-            <div>
+            <textarea data-test="input-message" name="" id="" cols="30" rows="1" placeholder="Escreva aqui..."></textarea>
+            <div data-test="recipient">
                 <span class="enviando">
                 
                 </span>
@@ -47,24 +47,21 @@
             </div>
         </div>
         <div class="secFooter">
-            <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
+            <ion-icon data-test="send-message" name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
         </div>
     </footer>
     <section class="escondido">
-        <div class="escuro" onclick="mostrarChat()">
+        <div data-test="overlay" class="escuro" onclick="mostrarChat()">
 
         </div>
         <div class="contatos">
             <h1>Escolha um contanto <br> para enviar mensagem:</h1>
             <div class="pessoas">
-                <div>
-                    <ion-icon name="people"></ion-icon>
-                    <span>Todos</span>
-                </div>
+
             </div>
             <h1>Escolha a visibilidade</h1>
             <div class="tipoDaMensagem">
-                <div class="tipoAtt">
+                <div class="tipoAtt" data-test="public">
                     <div onclick="escolherTipoDaMensagem(this)">
                         <ion-icon name="lock-closed"></ion-icon>
                         <span>Público</span>
@@ -73,7 +70,7 @@
                         
                     </div>
                 </div>
-                <div class="tipoAtt2">
+                <div class="tipoAtt2" data-test="private">
                     <div onclick="escolherTipoDaMensagem(this)">
                         <ion-icon name="lock-open"></ion-icon>
                         <span>Reservadamente</span>

@@ -65,20 +65,20 @@ function imprimirMsg(response){
 
         if(mensagemDoServer.type === 'status'){
             ul.innerHTML += `
-                <li class="joinChat">
-                    <span><strong id="time" data-test="message">(${mensagemDoServer.time})</strong> <strong>${mensagemDoServer.from} </strong> ${mensagemDoServer.text}</span>
+                <li class="joinChat" data-test="message">
+                    <span><strong id="time">(${mensagemDoServer.time})</strong> <strong>${mensagemDoServer.from} </strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         } else if (mensagemDoServer.type === 'message') {
             ul.innerHTML += `
-                <li class="defaultlMsg">
-                    <span><strong id="time" data-test="message">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
+                <li class="defaultlMsg" data-test="message">
+                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong> para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         } else if (mensagemDoServer.type === 'private_message'){
             ul.innerHTML += `
-                <li class="privateMsg">
-                    <span><strong id="time" data-test="message">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong>reservadamente para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
+                <li class="privateMsg" data-test="message">
+                    <span><strong id="time">(${mensagemDoServer.time}) </strong> <strong>${mensagemDoServer.from} </strong>reservadamente para <strong>${mensagemDoServer.to}:</strong> ${mensagemDoServer.text}</span>
                 </li>
             `;
         }
